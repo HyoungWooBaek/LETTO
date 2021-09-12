@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>LETTO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" th:href="@{/css/inputjungsanedit.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</head>
+<div layout:fragment="content">
+    <form  th:action="@{'/jungsan/edit/' + ${jungsanDto.id}}"  method="post">
+        <input type="hidden" name="_method" value="put"/>
+        <input type="hidden" name="id" th:value="${jungsanDto.id}"/>
+        <div class="container">
+            <div class="modal-header">
+                <h4 class="modal-title">정산 편집하기</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>레이블</label>
+                    <select id = "lable" name = "lable">
+                        <option value = "레토">레토</option>
+                        <option value = "아르테미스">아르테미스</option>
+                        <option value = "아폴로">아폴로</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>작품명</label>
+                    <input type="text" id = "title" name = "title" class="form-control" th:value = "${jungsanDto.title}">
+                </div>
+                <div class="form-group">
+                    <label>작가명</label>
+                    <input type="type" class="form-control" id = "writer" name = "writer" th:value = "${jungsanDto.writer}">
+                </div>
+                <div class="form-group_2">
+                    <label>선인세</label>
+                    <input type="text" id = "suninsae" name = "suninsae" th:value = "${jungsanDto.suninsae}" class="form-control_2">
+                </div>
+                <div class="form-group_2">
+                    <label>계약금</label>
+                    <input type="text" id = "gaeyak" name = "gaeyak" th:value = "${jungsanDto.gaeyak}" class="form-control_2">
+                </div>
+                <div class = "form-group_2">
+                    <label>독점</label>
+                    <select id = "dockjum" name = "dockjum">
+                        <option value = "1차 독점">1차 독점</option>
+                        <option value = "2차 독점">2차 독점</option>
+                        <option value = "3차 독점">3차 독점</option>
+                        <option value = "기타 유통사">기타 유통사</option>
+                    </select>
+                </div>
+                <div class = "form-group_2">
+                    <label>플랫폼</label>
+                    <select id = "platform" name = "platform">
+                        <option value = "교보문고">교보문고</option>
+                        <option value = "구글">구글</option>
+                        <option value = "네이버북스">네이버북스</option>
+                        <option value = "로망띠끄">로망띠끄</option>
+                        <option value = "리디북스">리디북스</option>
+                        <option value = "바로북">바로북</option>
+                        <option value = "반디앤루니스">반디앤루니스</option>
+                        <option value = "북큐브">북큐브</option>
+                        <option value = "에피루스">에피루스</option>
+                        <option value = "알라딘">알라딘</option>
+                        <option value = "원스토어">원스토어</option>
+                        <option value = "인터파크">인터파크</option>
+                        <option value = "저스툰">저스툰</option>
+                        <option value = "카카오페이지">카카오페이지</option>
+                        <option value = "톡소다">톡소다</option>
+                        <option value = "OPMS">OPMS</option>
+                        <option value = "YES24">YES24</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>기간</label>
+                    <input class = "form-control" id = "dateSelector" name = "dateSelector" placeholder = "2021-09-13"/>
+                </div>
+                <div class="form-group">
+                    <label>해당 월 총 매출</label>
+                    <input class="form-control" id = "monthchong" name = "monthchong">
+                </div>
+                <div class="form-group_2">
+                    <label>플랫폼 수수료</label>
+                    <input class = "form-control_2" id = "platfee" name = "platfee" placeholder = "플랫폼 수수료 선택">
+                </div>
+                <div class="form-group_2">
+                    <select id = "selectfee" name = "selectfee">
+                        <option value = "directly">직접입력</option>
+                        <option value = 0.3>30%</option>
+                        <option value = 0.45>45%</option>
+                        <option value = 0.5>50%</option>
+                    </select>
+                </div>
+                <div class="form-group_2">
+                    <label>R/S</label>
+                    <input class = "form-control_2" id = "rsfee" name = "rsfee" placeholder = "R/S 비율 선택"/>
+                </div>
+                <div class="form-group_2">
+                    <select id = "selectrsfee" name = "selectrsfee">
+                        <option value = "directly">직접입력</option>
+                        <option value = "7:3">7:3</option>
+                        <option value = "7.5:2.5">7.5:2.5</option>
+                        <option value = "8:2">8:2</option>
+                        <option value = "8.5:1.5">8.5:1.5</option>
+                        <option value = "9:1">9:1</option>
+                    </select>
+                </div>
+                <button class = "btn btn-primary" type="submit" value="등록">편집하기</button>
+                <input type="button" class = "btn btn-primary" value="취소" onclick="history.back(-1);">
+            </div>
+        </div>
+    </form>
+    <script>
+        var dateSelector = document.querySelector('#dateSelector');
+        dateSelector.flatpickr({
+            mode:"range",
+            minDate:"today",
+            dateFormat:"Y-m-d",
+        });
+
+        $(function() {
+            $('#selectfee').change(function() {
+                if ($('#selectfee').val() == 'directly') {
+                    $('#platfee').attr("readonly", false);
+                    $('#platfee').val("");
+                    $('#platfee').focus();
+                } else {
+                    $('#platfee').val($('#selectfee').val());
+                    $('#platfee').attr("readonly", true);
+                }
+            })
+        });
+
+        $(function() {
+            $('#selectrsfee').change(function() {
+                if ($('#selectrsfee').val() == 'directly') {
+                    $('#rsfee').attr("readonly", false);
+                    $('#rsfee').val("");
+                    $('#rsfee').focus();
+                } else {
+                    $('#rsfee').val($('#selectrsfee').val());
+                    $('#rsfee').attr("readonly", true);
+                }
+            })
+        });
+    </script>
+</div>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>LETTO</title>
+  <link rel="stylesheet" th:href="@{/css/detail.css}">
+</head>
+
+<div layout:fragment="content">
+  <div class="wrap_notice">
+    <h3 class="tit_cont">
+      <span class="ico_notice" aria-label="공지사항"></span>
+    </h3>
+
+    <div class="notice_detail">
+      <div class="tit_detail">
+        <strong class="tit" th:text="${boardDto.title}"></strong>
+        <span class="info">
+				작성자 : [[${boardDto.writer}]]
+				<span class="txt_bar">|</span>
+        <span class="time">작성일 : [[${#temporals.format(boardDto.createdDate, 'yyyy-MM-dd HH:mm')}]]</span>
+      </span>
+      </div>
+      <div class="info_detail">
+        <pre><p id="output"></p></pre>
+      </div>
+    </div>
+
+    <!-- 수정/삭제 -->
+    <a th:href="@{'/post/edit/' + ${boardDto.id}}">
+      <button class="btn btn-primary_1">수정</button>
+    </a>
+    <form id="delete-form" th:action="@{'../post/' + ${boardDto.id}}" method="post">
+      <input type="hidden" name="_method" value="delete"/>
+      <button class="btn btn-primary_2" id="delete-btn">삭제</button>
+    </form>
+  </div>
+
+  <!-- 변수 셋팅 -->
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    var boardDto = /*[[${boardDto}]]*/ "";
+    document.getElementById('output').innerHTML = boardDto.content;
+    /*]]>*/
+  </script>
+
+  <!-- script -->
+  <script th:inline="javascript" th:src="@{/js/board.js}"></script>
+</div>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>LETTO</title>
+
+    <link rel="stylesheet" th:href="@{/css/board.css}">
+</head>
+
+<div layout:fragment="content">
+    <!-- 검색 form -->
+    <div id="board-search">
+        <div class="container">
+            <div class="search-window">
+                <form action="/board/search" method="GET">
+                    <div class = "search-wrap">
+                        <input name="keyword" type="search" placeholder="검색어를 입력해주세요" value="">
+                        <button type="submit" class = "btn btn-dark">검색</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id = "board-write">
+        <div class="container">
+            <div class = "write" style="float:right; margin:10px 5px 10px 0">
+                <button class = "writebtn" type=button onclick="location.href='../admin/post'">글 쓰기</button>
+            </div>
+        </div>
+    </div>
+
+    <div id = "board-list">
+        <div class="container">
+            <table class="board-table">
+                <thead>
+                <tr>
+                    <th scope="col" class="th-num">번호</th>
+                    <th scope="col" class="th-title">제목</th>
+                    <th scope="col" class="th-writer">작성자</th>
+                    <th scope="col" class="th-date">작성일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- CONTENTS !-->
+                <tr th:each="board : ${boardList}">
+                    <td>
+                        <span th:text="${board.id}"></span>
+                    </td>
+                    <td>
+                        <a th:href="'/admin/post/' + @{${board.id}}">
+                            <span th:text="${board.title}"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <span th:text="${board.writer}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd')}"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id = "page">
+        <div class="container" style="text-align: center; margin:10px 0 0 0; font-size: 13px; letter-spacing: 4px">
+            <span th:each="pageNum : ${pageList}" th:inline="text">
+                <a th:href="@{'/?page=' + ${pageNum}}">[[${pageNum}]]</a>
+            </span>
+        </div>
+    </div>
+
+</div>
+
+</html>

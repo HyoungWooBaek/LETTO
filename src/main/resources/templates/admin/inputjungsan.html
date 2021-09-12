@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>LETTO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" th:href="@{/css/inputjungsan.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" rel = "stylesheet"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/js/jquery.mtz.monthpicker.js"></script>
+</head>
+<div layout:fragment="content">
+    <div id = "board-list">
+        <div class="container">
+            <div class="search-month" style="float:left; width:33%">
+                <form action="/junsan/search" method="GET">
+                    <div class = "search-wrap">
+                        <input id="search_month" name="keyword" type="search" placeholder="해당 월">
+                        <button type="submit" class = "btn btn-dark" style="font-size: 13px">해당 월</button>
+                    </div>
+                </form>
+            </div>
+            <div class = "write" style="margin:0; float:right; width:33%">
+                <a href = "#additems" class="addbtn" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;&nbsp; 추가하기</a>
+            </div>
+            <table class="board-table">
+                <thead>
+                <tr>
+                    <th scope="col" class="th-inputdate">날짜</th>
+                    <th scope="col" class="th-num">레이블</th>
+                    <th scope="col" class="th-title">작품</th>
+                    <th scope="col" class="th-writerid">작가ID</th>
+                    <th scope="col" class="th-writer">작가(필명)</th>
+                    <th scope="col" class="th-chulgan">출간일</th>
+                    <th scope="col" class="th-suninsae">선인세</th>
+                    <th scope="col" class="th-gaeyak">계약금</th>
+                    <th scope="col" class="th-dockjum">독점</th>
+                    <th scope="col" class="th-platform">플랫폼</th>
+                    <th scope="col" class="th-dateselector">기간</th>
+                    <th scope="col" class="th-platfee">플랫폼 수수료</th>
+                    <th scope="col" class="th-platmachul">플랫폼별 매출</th>
+                    <th scope="col" class="th-platsoon">플랫폼별 순매출</th>
+                    <th scope="col" class="th-rs">R/S(작가:레토)</th>
+                    <th scope="col" class="th-edit">수정</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <!-- CONTENTS !-->
+                <tr th:each ="jungsan : ${jungsanList}">
+                    <td>
+                        <span th:text="${#temporals.format(jungsan.createdDate, 'yyyy-MM-dd')}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${jungsan.lable}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${jungsan.title}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${jungsan.writerid}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${jungsan.writer}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${jungsan.chulgan}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${#numbers.formatInteger(jungsan.suninsae, 1, 'COMMA')}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${#numbers.formatInteger(jungsan.gaeyak, 1, 'COMMA')}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${jungsan.dockjum}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${jungsan.platform}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${jungsan.dateselectorst} + '-' + ${jungsan.dateselectorfn}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${jungsan.platfee}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${#numbers.formatInteger(jungsan.platmachul, 1, 'COMMA')}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${#numbers.formatInteger(jungsan.platsoon, 1, 'COMMA')}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${jungsan.rs}"></span>
+                    </td>
+                    <td>
+                        <form id="delete-form" th:action="@{'/admin/delete/' + ${jungsan.id}}" method="post">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button class="btn btn-primary_1" id="delete-btn"><i class="fa fa-trash"></i></button>
+                        </form>
+                        <a th:href = "@{'/jungsan/edit/' + ${jungsan.id}}" class="btn btn-primary_2" data-toggle="modal">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id = "page">
+        <div class="container" style="text-align: center; margin:10px 0 0 0; font-size: 13px; letter-spacing: 4px">
+            <span th:each="pageNum : ${pageList}" th:inline="text">
+                <a th:href="@{'/?page=' + ${pageNum}}">[[${pageNum}]]</a>
+            </span>
+        </div>
+    </div>
+    <div id="additems" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action = "../admin/add" method = "post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <div class="modal-header">
+                        <h4 class="modal-title">정산 입력하기</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <input type = "hidden", id = 'createmonth' name = 'createmonth'>
+                        <div class="form-group">
+                            <label>레이블</label>
+                            <select id = "lable" name = "lable">
+                                <option value = "레토">레토</option>
+                                <option value = "아르테미스">아르테미스</option>
+                                <option value = "아폴로">아폴로</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>작품</label>
+                            <input type="text" id = "title" name = "title" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>작가ID</label>
+                            <input type="text" id = "writerid" name = "writerid" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>작가(필명)</label>
+                            <input type="text" class="form-control" id = "writer" name = "writer" required>
+                        </div>
+                        <div class="form-group">
+                            <label>출간일</label>
+                            <input type="text" class = "form-control" id = "chulgan" name = "chulgan"/>
+                        </div>
+                        <div class="form-group_2">
+                            <label>선인세</label>
+                            <input type="text" id = "suninsae" name = "suninsae" class="form-control_2">
+                        </div>
+                        <div class="form-group_2">
+                            <label>계약금</label>
+                            <input type="text" id = "gaeyak" name = "gaeyak" class="form-control_2">
+                        </div>
+                        <div class = "form-group_2">
+                            <label>독점</label>
+                            <select id = "dockjum" name = "dockjum">
+                                <option value = "1차 독점">1차 독점</option>
+                                <option value = "2차 독점">2차 독점</option>
+                                <option value = "3차 독점">3차 독점</option>
+                                <option value = "기타 유통사">기타 유통사</option>
+                            </select>
+                        </div>
+                        <div class = "form-group_2">
+                            <label>플랫폼</label>
+                            <select id = "platform" name = "platform">
+                                <option value = "교보문고">교보문고</option>
+                                <option value = "구글">구글</option>
+                                <option value = "네이버북스">네이버북스</option>
+                                <option value = "로망띠끄">로망띠끄</option>
+                                <option value = "리디북스">리디북스</option>
+                                <option value = "바로북">바로북</option>
+                                <option value = "반디앤루니스">반디앤루니스</option>
+                                <option value = "북큐브">북큐브</option>
+                                <option value = "에피루스">에피루스</option>
+                                <option value = "알라딘">알라딘</option>
+                                <option value = "원스토어">원스토어</option>
+                                <option value = "인터파크">인터파크</option>
+                                <option value = "저스툰">저스툰</option>
+                                <option value = "카카오페이지">카카오페이지</option>
+                                <option value = "톡소다">톡소다</option>
+                                <option value = "OPMS">OPMS</option>
+                                <option value = "YES24">YES24</option>
+                            </select>
+                        </div>
+                        <div class="form-group_2">
+                            <label>기간</label>
+                            <input type="text" class = "form-control_2" id = "dateselectorst" name = "dateselectorst"/>
+                        </div>
+                        <div class="form-group_2">
+                            <input type="text" class = "form-control_2" id = "dateselectorfn" name = "dateselectorfn"/>
+                        </div>
+                        <div class="form-group_2">
+                            <label>플랫폼 수수료</label>
+                            <input class = "form-control_2" id = "platfee" name = "platfee" placeholder = "플랫폼 수수료 선택">
+                        </div>
+                        <div class="form-group_2">
+                            <select id = "selectfee" name = "selectfee">
+                                <option value = "directly">직접입력</option>
+                                <option value = 0.3>30%</option>
+                                <option value = 0.45>45%</option>
+                                <option value = 0.5>50%</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>플랫폼별 매출</label>
+                            <input class="form-control" id = "platmachul" name = "platmachul" required>
+                        </div>
+                        <div class="form-group_2">
+                            <label>R/S</label>
+                            <input class = "form-control_2" id = "rs" name = "rs" placeholder = "R/S 비율 선택"/>
+                        </div>
+                        <div class="form-group_2">
+                            <select id = "selectrsfee" name = "selectrsfee">
+                                <option value = "directly">직접입력</option>
+                                <option value = "7:3">7:3</option>
+                                <option value = "7.5:2.5">7.5:2.5</option>
+                                <option value = "8:2">8:2</option>
+                                <option value = "8.5:1.5">8.5:1.5</option>
+                                <option value = "9:1">9:1</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="입력취소">
+                        <input type="submit" class="btn btn-success" value="추가하기">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('createmonth').value = new
+            Date().toISOString().slice(0, 7);
+        
+        $(document).ready(function(){
+            $.datepicker.setDefaults({
+                closeText: "닫기",
+                currentText: "오늘",
+                prevText: '이전 달',
+                nextText: '다음 달',
+                monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+                dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+                dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+                weekHeader: "주", yearSuffix: '년',
+            });
+        });
+
+        $(function(){
+            $('#search_month').monthpicker({
+                pattern : 'yyyy-mm',
+                monthNames : ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
+            });
+        })
+
+        $(function(){
+            $('#chulgan').datepicker({
+                dateFormat : 'yy/mm/dd'
+            });
+        })
+
+        $(function(){
+            $('#dateselectorst').datepicker({
+                dateFormat : 'yy/mm/dd'
+            });
+        })
+
+        $(function(){
+            $('#dateselectorfn').datepicker({
+                dateFormat : 'yy/mm/dd'
+            });
+        })
+
+        $(function() {
+            $('#selectfee').change(function() {
+                if ($('#selectfee').val() == 'directly') {
+                    $('#platfee').attr("readonly", false);
+                    $('#platfee').val("");
+                    $('#platfee').focus();
+                } else {
+                    $('#platfee').val($('#selectfee').val());
+                    $('#platfee').attr("readonly", true);
+                }
+            })
+        });
+
+        $(function() {
+            $('#selectrsfee').change(function() {
+                if ($('#selectrsfee').val() == 'directly') {
+                    $('#rs').attr("readonly", false);
+                    $('#rs').val("");
+                    $('#rs').focus();
+                } else {
+                    $('#rs').val($('#selectrsfee').val());
+                    $('#rs').attr("readonly", true);
+                }
+            })
+        });
+    </script>
+</div>
+
+</html>

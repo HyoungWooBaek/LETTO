@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>LETTO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" th:href="@{/css/inputjungsanedit.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</head>
+<div layout:fragment="content">
+    <form  th:action="@{'/jigup/edit/' + ${jungsanDto.id}}"  method="post">
+        <input type="hidden" name="_method" value="put"/>
+        <input type="hidden" name="id" th:value="${jungsanDto.id}"/>
+        <input type="hidden" name="platfee" th:value="${jungsanDto.platfee}"/>
+        <input type="hidden" name="dateSelector" th:value="${jungsanDto.dateSelector}"/>
+        <input type="hidden" name="dockjum" th:value="${jungsanDto.dockjum}"/>
+        <input type="hidden" name="gaeyak" th:value="${jungsanDto.gaeyak}"/>
+        <input type="hidden" name="jungsan" th:value="${jungsanDto.jungsan}"/>
+        <input type="hidden" name="lable" th:value="${jungsanDto.lable}"/>
+        <input type="hidden" name="monthchong" th:value="${jungsanDto.monthchong}"/>
+        <input type="hidden" name="monthsoon" th:value="${jungsanDto.monthsoon}"/>
+        <input type="hidden" name="platform" th:value="${jungsanDto.platform}"/>
+        <input type="hidden" name="rsfee" th:value="${jungsanDto.rsfee}"/>
+        <input type="hidden" name="selectfee" th:value="${jungsanDto.selectfee}"/>
+        <input type="hidden" name="selectrsfee" th:value="${jungsanDto.selectrsfee}"/>
+        <input type="hidden" name="suninsae" th:value="${jungsanDto.suninsae}"/>
+        <input type="hidden" name="sunsu" th:value="${jungsanDto.sunsu}"/>
+        <input type="hidden" name="title" th:value="${jungsanDto.title}"/>
+        <input type="hidden" name="writer" th:value="${jungsanDto.writer}"/>
+        <div class="container">
+            <div class="modal-header">
+                <h4 class="modal-title">지급내역 편집하기</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>작가(실명)</label>
+                    <input type="text" id = "realname" name = "realname" class="form-control" th:value = "${jungsanDto.realname}">
+                </div>
+                <div class="form-group">
+                    <label>계약일</label>
+                    <input class = "form-control" id = "duringcontact" name = "duringcontact" placeholder = "2021-09-13"/>
+                </div>
+                <div class="form-group_2">
+                    <label>소득세</label>
+                    <input class = "form-control_2" id = "sodukfee" name = "sodukfee" th:value = "${jungsanDto.sodukfee}" placeholder = "소득세 선택">
+                </div>
+                <div class="form-group_2">
+                    <select id = "soduk" name = "soduk" th:value = "${jungsanDto.soduk}">
+                        <option value = "directly">직접입력</option>
+                        <option value = 0>0%</option>
+                        <option value = 0.033>3.3%</option>
+                    </select>
+                </div>
+                <div class="form-group_2">
+                    <label>은행(작가)</label>
+                    <input type="text" id = "bankname" name = "bankname" th:value = "${jungsanDto.bankname}" class="form-control_2">
+                </div>
+                <div class="form-group_2">
+                    <label>계좌번호(작가)</label>
+                    <input type="text" id = "bankcode" name = "bankcode" th:value = "${jungsanDto.bankcode}" class="form-control_2">
+                </div>
+                <div class="form-group">
+                    <label>비고</label>
+                    <input class="form-control" id = "bigo" name = "bigo" th:value = "${jungsanDto.bigo}">
+                </div>
+                <button class = "btn btn-primary" type="submit" value="등록">편집하기</button>
+                <input type="button" class = "btn btn-primary" value="취소" onclick="history.back(-1);">
+            </div>
+        </div>
+    </form>
+    <script>
+        var dateSelector = document.querySelector('#duringcontact');
+        dateSelector.flatpickr({
+            mode:"range",
+            minDate:"today",
+            dateFormat:"Y-m-d",
+        });
+
+        $(function() {
+            $('#soduk').change(function() {
+                if ($('#soduk').val() == 'directly') {
+                    $('#sodukfee').attr("readonly", false);
+                    $('#sodukfee').val("");
+                    $('#sodukfee').focus();
+                } else {
+                    $('#sodukfee').val($('#soduk').val());
+                    $('#sodukfee').attr("readonly", true);
+                }
+            })
+        });
+    </script>
+</div>
+</html>

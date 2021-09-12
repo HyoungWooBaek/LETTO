@@ -1,0 +1,107 @@
+.wrap_notice {
+    float: left;
+    position: relative;
+    width: 694px;
+    padding-left: 10px;
+    margin:0;
+}
+
+.wrap_notice .tit_cont {
+    padding-top: 0px;
+}
+
+.wrap_notice .tit_cont .ico_notice {
+    width: 58px;
+    height: 16px;
+    background-position: 0 -80px;
+}
+
+.notice_detail {
+    margin-top: 16px;
+    padding: 24px;
+    border: 1px solid #dee2e6;
+}
+
+.notice_detail .tit_detail {
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+.notice_detail .tit_detail .tit {
+    display: block;
+    font-size: 15px;
+    line-height: 17px;
+}
+
+.notice_detail .tit_detail .info {
+    display: block;
+    padding-top: 8px;
+    font-size: 11px;
+    line-height: 13px;
+    color: #495057;
+}
+
+.notice_detail .tit_detail .txt_bar {
+    display: inline-block;
+    margin: 1px 4px 0;
+    font-size: 10px;
+    line-height: 10px;
+    color: #e9ecef;
+    vertical-align: top;
+}
+
+.notice_detail .tit_detail .time {
+    color: #868e96;
+}
+
+.notice_detail .info_detail {
+    padding-top: 21px;
+    margin-bottom: -7px;
+    font-size: 13px;
+    line-height: 21px;
+}
+
+.wrap_notice .ico_notice, .wrap_notice .paginate .ico_page {
+    display: inline-block;
+    overflow: hidden;
+    background: url(https://ssl.pstatic.net/static/comic/images/sp_notice_170314.png) no-repeat;
+    vertical-align: top;
+}
+
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    margin-top : 4px;
+}
+
+.btn-primary_1 {
+    float: left;
+    color: #fff;
+    background-color: #C7B0C2;
+    border-color: #fff;
+}
+
+.btn-primary_2 {
+    float: left;
+    color: #fff;
+    background-color: #C7B0C2;
+    border-color: #fff;
+}

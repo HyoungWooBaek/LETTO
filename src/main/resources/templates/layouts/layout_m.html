@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html
+        lagn="ko"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+
+>
+
+<head>
+    <meta charset="UTF-8">
+    <title>LETTO</title>
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+</head>
+
+<header th:replace="fragment/header_m" :: headerFragment></header>
+
+<!-- 사이드바 -->
+<aside class="sidebar">
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="/member"><span class="">홈</span></a>
+                    <ul class="nav-flyout">
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><span>정산관리</span></a>
+                    <ul class="nav-flyout">
+                        <li>
+                            <a href="#">작품목록</a>
+                        </li>
+                        <li>
+                            <a href="/items">작품별</a>
+                        </li>
+                        <li>
+                            <a href="#">작가별</a>
+                        </li>
+                        <li>
+                            <a href="#">플랫폼별</a>
+                        </li>
+                        <li>
+                            <a href="#">지급내역</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="notice"><span class="">공지사항</span></a>
+                </li>
+            </ul>
+        </nav>
+</aside>
+
+
+<div id = "content-wrap" class="content-wrap">
+    <div layout:fragment="content"></div>
+</div>
+
+<div th:insert="fragment/footer.html" id="footer"></div>
+
+</html>

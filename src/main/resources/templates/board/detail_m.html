@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_m}">
+<head>
+  <meta charset="UTF-8">
+  <title>LETTO</title>
+  <link rel="stylesheet" th:href="@{/css/detail.css}">
+</head>
+
+<div layout:fragment="content">
+  <div class="wrap_notice">
+    <h3 class="tit_cont">
+      <span class="ico_notice" aria-label="공지사항"></span>
+    </h3>
+
+    <div class="notice_detail">
+      <div class="tit_detail">
+        <strong class="tit" th:text="${boardDto.title}"></strong>
+        <span class="info">
+				작성자 : [[${boardDto.writer}]]
+				<span class="txt_bar">|</span>
+        <span class="time">작성일 : [[${#temporals.format(boardDto.createdDate, 'yyyy-MM-dd HH:mm')}]]</span>
+      </span>
+      </div>
+      <div class="info_detail">
+        <p id="output"></p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 변수 셋팅 -->
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    var boardDto = /*[[${boardDto}]]*/ "";
+    document.getElementById('output').innerHTML = boardDto.content;
+    /*]]>*/
+  </script>
+
+  <!-- script -->
+  <script th:inline="javascript" th:src="@{/js/board.js}"></script>
+</div>
+</html>

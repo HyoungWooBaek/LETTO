@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>LETTO</title>
+</head>
+<div layout:fragment="content">
+    <h1>회원관리</h1>
+
+    <form th:action="@{/user}" method="POST">
+        ID : <input type="text" name="userID"> <br>
+        password : <input type="password" name="password"> <br>
+        <input type="radio" name="auth" value="ROLE_ADMIN"> admin
+        <input type="radio" name="auth" value="ROLE_USER" checked="checked"> user <br>
+        <button type="submit">계정 생성</button>
+    </form> <hr>
+
+</div>
+</html>

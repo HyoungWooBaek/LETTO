@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>LETTO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" th:href="@{/css/inputjigup.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</head>
+<div layout:fragment="content">
+    <div id = "board-list">
+        <div class="container">
+            <table class="board-table">
+                <thead>
+                <tr>
+                    <th scope="col" class="th-writer">작가(필명)</th>
+                    <th scope="col" class="th-realname">작가(실명)</th>
+                    <th scope="col" class="th-duringcontact">계약일</th>
+                    <th scope="col" class="th-jungsanevery">정산총액</th>
+                    <th scope="col" class="th-sodukfee">소득세(%)</th>
+                    <th scope="col" class="th-jigup">지급액</th>
+                    <th scope="col" class="th-bankname">은행(작가)</th>
+                    <th scope="col" class="th-bankcode">계좌번호(작가)</th>
+                    <th scope="col" class="th-bigo">비고</th>
+                    <th scope="col" class="th-editjigup">지급내역편집</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <!-- CONTENTS !-->
+                <tr th:each ="jungsansum : ${jungsanSumList}">
+                    <td>
+                        <span th:text="${jungsansum.createmonth}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${jungsansum.writer}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${jungsansum.realname}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${jungsansum.suninsae}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${jungsansum.gaeyak}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${jungsan.platsoon}"></span>
+                    </td>
+                    <td>
+                        <a th:href = "@{'/jigup/edit/' + ${jungsan.id}}" class="btn btn-primary_2" data-toggle="modal">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id = "page">
+        <div class="container" style="text-align: center; margin:10px 0 0 0; font-size: 13px; letter-spacing: 4px">
+            <span th:each="pageNum : ${pageList}" th:inline="text">
+                <a th:href="@{'/?page=' + ${pageNum}}">[[${pageNum}]]</a>
+            </span>
+        </div>
+    </div>
+</div>
+</html>
